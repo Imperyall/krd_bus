@@ -1,0 +1,3 @@
+export const UPDATE_TRACK = 'UPDATE_TRACK'
+export const SET_INTERVAL = 'SET_INTERVAL'
+export const CLEAR_INTERVAL = 'CLEAR_INTERVAL'

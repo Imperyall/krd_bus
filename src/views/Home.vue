@@ -1,18 +1,39 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-content>
+    <v-row class="ma-0 h-100">
+      <v-col>
+        <v-card elevation="2">
+          <yandex-map></yandex-map>
+        </v-card>
+      </v-col>
+      <v-col class="command-bar d-flex">
+        <v-card elevation="2" class="d-flex flex-grow-1">
+          <command-bar></command-bar>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-content>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import YandexMap from '@/components/YandexMap.vue'
+import CommandBar from '@/components/CommandBar.vue'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
+    YandexMap,
+    CommandBar,
   },
 }
 </script>
+
+<style>
+.h-100 {
+  height: 100%;
+}
+.command-bar {
+  width: 300px !important;
+}
+</style>
