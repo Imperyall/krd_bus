@@ -1,7 +1,8 @@
+import { TrackTypeId } from '../../../api/types'
 export interface Track {
   id: string // Уникальный ID
   vehicleId: string // ID транспорта
-  type: number // Тип транспорта
+  type: TrackTypeId // Тип транспорта
   name: string // Название транспорта
   route: string // Маршрутный номер
   lat: number // Широта

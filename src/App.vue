@@ -1,5 +1,5 @@
 <template>
-  <v-app app dark color="primary">
+  <v-app app color="primary">
     <router-view></router-view>
   </v-app>
 </template>
@@ -10,6 +10,9 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'App',
   components: {},
+  created() {
+    this.$vuetify.theme.dark = localStorage.getItem('theme.dark') !== 'false'
+  },
 })
 </script>
 

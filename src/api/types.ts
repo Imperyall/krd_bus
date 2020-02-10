@@ -1,9 +1,7 @@
 export interface TrackType {
-  id: number
+  id: TrackTypeId
   name: string
   icon: string
 }
 
-export interface Tracks {
-  [key: string]: TrackType
-}
+export type TrackTypeId = '0' | '1' | '3' | '4' | '5' | '6'
