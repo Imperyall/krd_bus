@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-row class="ma-0 h-100">
+    <v-row class="ma-0 root">
       <v-col>
         <v-card elevation="2">
           <yandex-map></yandex-map>
@@ -30,8 +30,12 @@ export default {
 </script>
 
 <style>
-.h-100 {
-  height: 100%;
+.root {
+  width: 100vw;
+  overflow: hidden;
+}
+.root .col {
+  height: 100vh;
 }
 .command-bar {
   width: 300px !important;
