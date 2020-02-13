@@ -14,30 +14,30 @@
       ></v-row>
       <v-row no-gutters class="px-3">
         <v-list dense nav class="flex-grow-1">
-          <v-list-group v-for="type in trackTypes" :key="type.id">
+          <v-list-group v-for="group in routes" :key="group.id">
             <template #activator>
               <v-list-item-content>
-                <v-list-item-title v-text="type.name"></v-list-item-title>
+                <v-list-item-title v-text="group.name"></v-list-item-title>
               </v-list-item-content>
             </template>
             <template #appendIcon>
               <v-icon small>fas fa-chevron-down</v-icon>
             </template>
             <v-list-item
-              v-for="item in routes[type.id]"
-              :key="item.id"
+              v-for="route in group.routes"
+              :key="route.id"
               :ripple="false"
             >
               <template #default>
                 <v-list-item-content>
-                  <v-list-item-title v-text="item.route"></v-list-item-title>
+                  <v-list-item-title v-text="route.route"></v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-checkbox
                     dense
                     :ripple="false"
                     @click="toggle"
-                    v-model="item.checked"
+                    v-model="route.checked"
                   ></v-checkbox>
                 </v-list-item-action>
               </template>
@@ -52,34 +52,17 @@
   </v-form>
 </template>
 
-<script>
-import { mapState, mapMutations } from 'vuex'
+<script lang="ts">
+import { mapMutations, mapGetters } from 'vuex'
 import * as types from '@/store/modules/command/mutation-types'
-import { trackTypes } from '../api'
 
 export default {
   name: 'CommandBar',
-  data: () => ({
-    trackTypes,
-  }),
-  computed: mapState({
-    move: state => state.command.move,
-    routes: state => {
-      const result = {}
-
-      Object.keys(trackTypes).forEach(type => (result[type] = []))
-
-      state.track.tracks.forEach(({ id, type, route }) => {
-        if (!result[type].find(res => res.route === route)) {
-          result[type].push({ checked: true, id, route })
-        }
-      })
-
-      return result
-    },
-  }),
+  computed: {
+    ...mapGetters(['move', 'routes']),
+  },
   methods: {
-    toggle(e) {
+    toggle(e: any) {
       console.log(e)
     },
     ...mapMutations({
@@ -87,7 +70,8 @@ export default {
     }),
   },
   watch: {
-    '$vuetify.theme.dark': e => localStorage.setItem('theme.dark', e),
+    '$vuetify.theme.dark': (e: boolean): void =>
+      localStorage.setItem('theme.dark', e.toString()),
   },
 }
 </script>

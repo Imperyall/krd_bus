@@ -31,9 +31,9 @@ export const getGps = async (url: string): Promise<Track[]> => {
   const result = await response.text()
   const data = result && result.match(/[^\r\n]+/g)
 
-  const ids: string[] = []
+  if (data) {
+    const ids: string[] = []
 
-  if (data && data.length > 0) {
     return data.reduce((acc: Track[], cur: string): Track[] => {
       const data = cur.split(',')
       const route = data[1].replace(/\s/g, '')

@@ -1,13 +1,16 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { StoreOptions } from 'vuex'
+
+import { RootState } from './types'
 import track from './modules/track'
 import command from './modules/command'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store: StoreOptions<RootState> = {
   modules: {
     track,
     command,
   },
-})
+}
+export default new Vuex.Store<RootState>(store)
