@@ -8,7 +8,8 @@ import { State } from './types'
 
 const initialState: State = {
   interval: undefined,
-  tracks: [],
+  routes: [],
+  showed: {},
 }
 
 const track: Module<State, RootState> = {

@@ -1,17 +1,7 @@
 export interface RouteType {
-  id: string
-  route: string
-  checked: boolean
-}
-
-export type TrackTypeWithRoutes = TrackType & {
-  routes: RouteType[]
-}
-
-export interface TrackType {
-  id: TrackTypeId
+  id: RouteIdType
   name: string
   icon: string
 }
 
-export type TrackTypeId = '0' | '1' | '3' | '4' | '5' | '6'
+export type RouteIdType = '0' | '1' | '3' | '4' | '5' | '6'

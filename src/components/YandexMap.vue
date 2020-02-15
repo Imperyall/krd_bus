@@ -1,28 +1,30 @@
 <template>
-  <yandex-map :coords="coords" :zoom="zoom" ymap-class="map"
-    ><ymap-marker
-      v-for="bus in tracks"
-      :key="bus.id"
-      :marker-id="bus.id"
-      :coords="[bus.lat, bus.lng]"
-      :options="{
-        iconContentSize: [100, 20],
-      }"
-      :icon="{
-        layout: 'default#imageWithContent',
-        imageHref: bus.icon,
-        imageSize: [20, 20],
-        imageOffset: [-10, -10],
-        contentOffset: [-40, -20],
-        content: `<span class='content content-${bus.type}'>${bus.route}</span>`,
-      }"
-    >
-    </ymap-marker>
+  <yandex-map :coords="coords" :zoom="zoom" ymap-class="map">
+    <template v-for="route in routes">
+      <ymap-marker
+        v-for="track in route.tracks"
+        :key="track.id"
+        :marker-id="track.id"
+        :coords="[track.lat, track.lng]"
+        :options="{
+          iconContentSize: [100, 20],
+        }"
+        :icon="{
+          layout: 'default#imageWithContent',
+          imageHref: route.icon,
+          imageSize: [20, 20],
+          imageOffset: [-10, -10],
+          contentOffset: [-40, -20],
+          content: `<span class='content content-${route.id}'>${track.name}</span>`,
+        }"
+      >
+      </ymap-marker>
+    </template>
   </yandex-map>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import { DEFAULT_COORDS, DEFAULT_ZOOM } from '@/helpers/constants'
 
 export default {
@@ -32,18 +34,22 @@ export default {
     zoom: DEFAULT_ZOOM,
   }),
   mounted() {
-    this.$store.dispatch('initTracks')
+    this.updateRoutes()
+    this.initRoutes()
   },
   destroyed() {
-    this.$store.dispatch('reset')
+    this.reset()
   },
   computed: mapState({
-    tracks: state =>
-      state.track.tracks.filter(
-        track => !state.command.move || track.speed > 0,
-      ),
+    routes: state =>
+      !state.command.move
+        ? state.track.routes
+        : state.track.routes.map(route => ({
+            ...route,
+            tracks: route.tracks.filter(track => track.speed > 0),
+          })),
   }),
-  methods: {},
+  methods: mapActions(['initRoutes', 'updateRoutes', 'reset']),
 }
 </script>
 

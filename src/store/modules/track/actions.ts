@@ -1,4 +1,4 @@
-import { ActionTree, Commit } from 'vuex'
+import { ActionTree } from 'vuex'
 
 import { getGps } from '@/api'
 import { DELAY, GPS_URL } from '@/helpers/constants'
@@ -7,16 +7,13 @@ import { State } from './types'
 import * as types from './mutation-types'
 
 export const actions: ActionTree<State, RootState> = {
-  initTracks: async (context: { commit: Commit }): Promise<void> => {
-    context.commit(types.UPDATE_TRACK, await getGps(GPS_URL))
+  initRoutes: async ({ dispatch, commit }) => {
+    const interval = setInterval(async () => dispatch('updateRoutes'), DELAY)
 
-    const interval = setInterval(
-      async () => context.commit(types.UPDATE_TRACK, await getGps(GPS_URL)),
-      DELAY,
-    )
-
-    context.commit(types.SET_INTERVAL, interval)
+    commit(types.SET_INTERVAL, interval)
   },
-  reset: (context: { commit: Commit }): void =>
-    context.commit(types.CLEAR_INTERVAL),
+  updateRoutes: async ({ commit }) => {
+    commit(types.UPDATE_ROUTES, await getGps(GPS_URL))
+  },
+  reset: ({ commit }) => commit(types.CLEAR_INTERVAL),
 }

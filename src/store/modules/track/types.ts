@@ -1,17 +1,23 @@
-import { TrackTypeId } from '../../../api/types'
+import { RouteType as ApiRoute, RouteIdType } from '../../../api/types'
+export interface Route extends ApiRoute {
+  tracks: Track[]
+}
+
 export interface Track {
-  id: string // Уникальный ID
+  id: string // Уникальный идентификатор
+  name: string // Маршрутный номер
   vehicleId: string // ID транспорта
-  type: TrackTypeId // Тип транспорта
-  name: string // Название транспорта
-  route: string // Маршрутный номер
   lat: number // Широта
   lng: number // Долгота
   speed: number // Скорость транспорта
-  icon?: any // Иконка
+}
+
+export type Showed = {
+  [key in RouteIdType]?: string[]
 }
 
 export interface State {
   interval: undefined | number
-  tracks: Track[]
+  routes: Route[]
+  showed: Showed
 }
